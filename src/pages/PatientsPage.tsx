@@ -1,12 +1,20 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { usePatients } from "../hooks/usePatients";
 import { PatientCard } from "../components/PatientCard";
 import { PatientModal } from "../components/PatientModal";
 import { Patient } from "../types/patient";
 import { Spinner } from "../components/Spinner";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
+import { usePersistedPatients } from "../hooks/usePersistPatient";
+import { useTranslation } from "react-i18next";
+import { Toast } from "../components/Toast";
+import { ToastStatus } from "../enums/toast";
+import { Button } from "../components/Button";
+import "./styles.css";
+import { Input } from "../components/Input";
 
 export const PatientsPage = () => {
+  const { t } = useTranslation();
   const {
     data,
     isLoading,
@@ -15,21 +23,13 @@ export const PatientsPage = () => {
     hasNextPage,
     isFetchingNextPage,
   } = usePatients();
-  
 
-  const [patients, setPatients] = useState<Patient[]>([]);
+  const [patients, setPatients] = usePersistedPatients(data);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingPatient, setEditingPatient] = useState<Patient | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<"name" | "createdAt" | null>(null);
-
-  useEffect(() => {
-    if (data) {
-      const allPatients: Patient[] = data?.pages.flat() ?? [];
-
-      setPatients(allPatients);
-    }
-  }, [data]);
+   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -43,31 +43,20 @@ export const PatientsPage = () => {
     disabled: !hasNextPage,
   });
 
-  if (isLoading) return <p>Loading patients...</p>;
-  if (isError) return <p className="error-message">Failed to load patients.</p>;
+  if (isLoading) return <p>{t("loading")}</p>;
+  if (isError) return <p className="error-message">{t("error")}</p>;
 
   const toggleModal = (patient?: Patient | null) => {
-    if (modalOpen) {
-      setModalOpen(false);
-      setEditingPatient(undefined);
-    } else if (patient) {
-      setEditingPatient(patient);
-      setModalOpen(true);
-    } else {
-      // open add modal
-      setEditingPatient(undefined);
-      setModalOpen(true);
-    }
+    setModalOpen(prev => !prev);
+    setEditingPatient(patient ?? undefined);
   };
-  
 
   const handleSubmit = (formData: Omit<Patient, "id" | "createdAt">, id?: string) => {
     if (id) {
       setPatients((prev) =>
-        prev.map((p) =>
-          p.id === id ? { ...p, ...formData } : p
-        )
+        prev.map((p) => (p.id === id ? { ...p, ...formData } : p))
       );
+      setToast({ message: t("successEdit"), type: ToastStatus.SUCCESS });
     } else {
       const newPatient: Patient = {
         id: (Math.random() * 1000000).toFixed(0),
@@ -75,74 +64,61 @@ export const PatientsPage = () => {
         ...formData,
       };
       setPatients((prev) => [newPatient, ...prev]);
+      setToast({ message: t("successAdd"), type: ToastStatus.SUCCESS });
     }
   };
 
   const filteredPatients = patients
-  .filter((patient) => {
-    if (!searchTerm) return true;
-    const lowerSearch = searchTerm.toLowerCase();
-    return (
-      patient.name.toLowerCase().includes(lowerSearch) ||
-      patient.createdAt.includes(searchTerm)
-    );
-  })
-  .sort((a, b) => {
-    if (!sortBy) return 0;
-    if (sortBy === "name") {
-      return a.name.localeCompare(b.name);
-    } else if (sortBy === "createdAt") {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-    }
-    return 0;
-  });
+    .filter((patient) => {
+      if (!searchTerm) return true;
+      const lowerSearch = searchTerm.toLowerCase();
+      return (
+        patient.name.toLowerCase().includes(lowerSearch) ||
+        patient.createdAt.includes(searchTerm)
+      );
+    })
+    .sort((a, b) => {
+      if (!sortBy) return 0;
+      if (sortBy === "name") {
+        return a.name.localeCompare(b.name);
+      } else if (sortBy === "createdAt") {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      }
+      return 0;
+    });
 
   return (
     <>
-      <button className="add-button" onClick={() => toggleModal()}>
-        Add Patient
-      </button>
-
       <div className="search-sort-container">
-      <input
-        type="text"
-        placeholder="Search by name or date (YYYY-MM-DD)"
-        value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
-        className="search-input"
-      />
+        <div className="search-sort-input">
+          <Input
+            type="text"
+            placeholder={t("searchPlaceholder")}
+            value={searchTerm}
+            handleChange={setSearchTerm}
+          />
 
-      <button
-        onClick={() => setSortBy("name")}
-        className={sortBy === "name" ? "active" : ""}
-      >
-        Sort by Name
-      </button>
+          <Button title={t("sortByName")} onPress={() => setSortBy("name")} dark/>
 
-      <button
-        onClick={() => setSortBy("createdAt")}
-        className={sortBy === "createdAt" ? "active" : ""}
-      >
-        Sort by Date
-      </button>
-  </div>
+          <Button title={t("sortByDate")} onPress={() => setSortBy("createdAt")} dark/>
+        </div>
 
-
-      <div className="card-grid">
-      <div className="card-grid">
-      {filteredPatients.map((patient, i) => (
-        <PatientCard
-          key={patient.id}
-          patient={patient}
-          onEdit={() => toggleModal(patient)}
-          style={{ "--delay": `${i * 100}ms` } as React.CSSProperties}
-          className="patient-card"
-        />
-      ))}
-</div>
+        <Button title={`+${t("addPatient")}`} onPress={() => toggleModal()} />
       </div>
 
-    {/* div to detect scroll near bottom */}
+      <div className="card-grid">
+        {filteredPatients.map((patient, i) => (
+          <PatientCard
+            key={patient.id}
+            patient={patient}
+            onEdit={() => toggleModal(patient)}
+            style={{ "--delay": `${i * 100}ms` } as React.CSSProperties}
+            className="patient-card"
+          />
+        ))}
+      </div>
+
+      {/* div to detect scroll near bottom */}
       <div ref={sentinelRef} style={{ height: 1 }} />
 
       {isFetchingNextPage && (
@@ -156,6 +132,13 @@ export const PatientsPage = () => {
           patient={editingPatient}
           onClose={toggleModal}
           onSubmit={handleSubmit}
+        />
+      )}
+       {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
       )}
     </>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Patient } from "../../types/patient";
 import "./styles.css";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   patient: Patient;
@@ -11,6 +12,7 @@ interface Props {
 
 export const PatientCard: React.FC<Props> = ({ patient, onEdit,  className = "", style, }) => {
   const [expanded, setExpanded] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div
@@ -26,11 +28,11 @@ export const PatientCard: React.FC<Props> = ({ patient, onEdit,  className = "",
         </div>
         <div className="buttons-row">
         <button onClick={() => setExpanded(!expanded)}>
-          {expanded ? "Collapse" : "Expand"}
+          {expanded ? t("collapse") : t("expand")}
         </button>
           {onEdit && (
             <button className="edit-btn" onClick={onEdit}>
-              Edit
+              {t("edit")}
             </button>
           )}
         </div>
