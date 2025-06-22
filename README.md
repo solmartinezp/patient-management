@@ -48,12 +48,12 @@ Welcome to **Patient Management Data** – a modern frontend web application bui
     Start the development server:
 
     ```bash
-    npm start
+    npm run dev
 
 6. **Open in Browser**
 
     Once the server is running, open your browser and go to:
 
     ```bash
-    http://localhost:3000
+    http://localhost:5173
 
