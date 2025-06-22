@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { usePatients } from "../hooks/usePatients";
 import { PatientCard } from "../components/PatientCard";
 import { PatientModal } from "../components/PatientModal";

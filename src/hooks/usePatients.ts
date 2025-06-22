@@ -1,7 +1,7 @@
 import { useInfiniteQuery, QueryFunctionContext, InfiniteData } from "@tanstack/react-query";
 import { Patient } from "../types/patient";
 
-const API_URL = "https://63bedcf7f5cfc0949b634fc8.mockapi.io/users";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export function usePatients() {
   const fetchPatients = async ({ pageParam = 0 }: QueryFunctionContext<readonly unknown[], number>): Promise<Patient[]> => {
