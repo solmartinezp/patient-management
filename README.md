@@ -33,11 +33,13 @@ Welcome to **Patient Management Data** – a modern frontend web application bui
 
     ```bash
     cp .env.example .env
+     ```
 
     Open the new .env file and replace placeholder values with actual configuration:
 
     ```bash
     REACT_APP_API_URL="https://63bedcf7f5cfc0949b634fc8.mockapi.io/users"
+     ```
 
     This step is required to connect the app to the patient data API.
 
