@@ -43,7 +43,7 @@ export const PatientsPage = () => {
     disabled: !hasNextPage,
   });
 
-  if (isError) return <p className="notFound">{t("error")}</p>;
+  if (isError && !isLoading && !isFetchingNextPage) return <p className="notFound">{t("error")}</p>;
 
   const toggleModal = (patient?: Patient | null) => {
     setModalOpen(prev => !prev);
