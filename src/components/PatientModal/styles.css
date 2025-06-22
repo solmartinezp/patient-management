@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--modal-background);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,22 +13,22 @@
   
   .modal {
     background: white;
-    padding: 2rem;
+    padding: 2em;
     border-radius: 8px;
     width: 100%;
     max-width: 500px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px var(--primary-shadow);
     padding-bottom: 5%;
   }
   
   .modal h2 {
-    color: #56168e;
+    color: var(--primary-color);
   }
   
   .modal form {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1em;
   }
   
   .modal input,
@@ -50,7 +50,7 @@
   }
   
   .error {
-    color: red;
+    color: var(--error-color);
     font-size: 0.85rem;
   }
   

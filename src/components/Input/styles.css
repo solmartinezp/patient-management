@@ -1,15 +1,23 @@
 .input {
-    margin-right: 5px;
-    padding: 8px;
-    border-radius: 25px;
-    min-width: 200px;
-    text-align: center;
-    border: 1px solid rgb(157, 156, 156);
-    font-family: "Roboto Flex", sans-serif;
+  background-color: white;
+  border: none;
+  padding: 8px;
+  font-size: 16px;
+  min-width: 200px;
+  border-radius: 25px;
+  margin-top: 1em;
+  color: black;
+  box-shadow: 0 0.4rem var(--secondary-color);
+  cursor: pointer;
+}
+
+.input:focus {
+  outline: none;
 }
 
 @media (min-width: 600px) {
     .input {
         text-align: left;
+        margin-bottom: 1em;
     }
 }

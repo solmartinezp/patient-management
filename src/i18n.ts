@@ -36,7 +36,8 @@ i18n
           editPatient: "Edit Patient",
           successAdd: "Patient added successfully!",
           successEdit: "Patient updated successfully!",
-          headerTitle: "Patient Management Data"
+          headerTitle: "Patient Management Data",
+          patientNotFound: "Patient not found."
         },
       },
     },

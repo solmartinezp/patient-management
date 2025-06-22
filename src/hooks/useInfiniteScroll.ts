@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, MutableRefObject } from "react";
 
-interface InfiniteScrollOptions {
+type InfiniteScrollOptions = {
   root?: Element | null;
   rootMargin?: string;
   threshold?: number | number[];

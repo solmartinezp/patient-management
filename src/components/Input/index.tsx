@@ -17,4 +17,4 @@ export const Input = ({
             onChange={e => handleChange(e.target.value)}
             className="input"
         />
-  );
+);

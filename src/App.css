@@ -4,5 +4,5 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: "Roboto Flex", sans-serif;
+  font-family: var(--primary-font-family);
 }

@@ -71,7 +71,7 @@ export const PatientModal: React.FC<Props> = ({ patient, onClose, onSubmit }) =>
             {...register(Input.DESCRIPTION, {
               required: t("required"),
               minLength: {
-                value: 10,
+                value: 15,
                 message: t("descriptionValidation"),
               },
             })}

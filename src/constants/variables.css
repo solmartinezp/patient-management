@@ -1,0 +1,11 @@
+:root {
+  --primary-font-family: "Roboto Flex", sans-serif;
+  --secondary-font-family: "Chakra Petch", sans-serif;
+  --primary-color: #56168e;
+  --secondary-color: #f1e695;
+  --border-color: rgb(157, 156, 156);
+  --background-color: #e8dbf3;
+  --modal-background: rgba(0, 0, 0, 0.5);
+  --error-color: rgb(170, 4, 4);
+  --primary-shadow: rgba(0, 0, 0, 0.2);
+}

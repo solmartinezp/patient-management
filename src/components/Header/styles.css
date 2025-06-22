@@ -4,16 +4,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #e8dbf3;
+    background-color: var(--background-color);
     margin-bottom: 3%;
     width: 100%;
 }
 
 .header-title {
     text-align: center;
-    font-family: "Chakra Petch", sans-serif;
+    font-family: var(--secondary-font-family);
     font-weight: 600;
-    color: #56168e;
+    color: var(--primary-color);
     width: 70%;
 }
 

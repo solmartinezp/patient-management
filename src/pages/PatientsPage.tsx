@@ -43,7 +43,6 @@ export const PatientsPage = () => {
     disabled: !hasNextPage,
   });
 
-  if (isLoading) return <p>{t("loading")}</p>;
   if (isError) return <p className="error-message">{t("error")}</p>;
 
   const toggleModal = (patient?: Patient | null) => {
@@ -106,26 +105,29 @@ export const PatientsPage = () => {
         <Button title={`+${t("addPatient")}`} onPress={() => toggleModal()} />
       </div>
 
-      <div className="card-grid">
-        {filteredPatients.map((patient, i) => (
-          <PatientCard
-            key={patient.id}
-            patient={patient}
-            onEdit={() => toggleModal(patient)}
-            style={{ "--delay": `${i * 100}ms` } as React.CSSProperties}
-            className="patient-card"
-          />
-        ))}
+      <div className="card-container">
+        {
+          isLoading && isFetchingNextPage
+          ?
+            <Spinner />
+          : 
+            filteredPatients.length === 0
+            ?
+              <p className="notFound">{t("patientNotFound")}</p>
+            :
+              filteredPatients.map((patient, i) => (
+                <PatientCard
+                  key={patient.id}
+                  patient={patient}
+                  onEdit={() => toggleModal(patient)}
+                  style={{ "--delay": `${i * 100}ms` } as React.CSSProperties}
+                />
+              ))
+        }
       </div>
 
       {/* div to detect scroll near bottom */}
       <div ref={sentinelRef} style={{ height: 1 }} />
-
-      {isFetchingNextPage && (
-        <div style={{ display: "flex", justifyContent: "center", padding: "1rem" }}>
-          <Spinner />
-        </div>
-      )}
 
       {modalOpen && (
         <PatientModal
@@ -134,7 +136,8 @@ export const PatientsPage = () => {
           onSubmit={handleSubmit}
         />
       )}
-       {toast && (
+      
+      {toast && (
         <Toast
           message={toast.message}
           type={toast.type}

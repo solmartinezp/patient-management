@@ -6,12 +6,12 @@
   font-size: 14px;
   letter-spacing: 1px;
   text-decoration: none;
-  color: #56168e;
+  color: var(--primary-color);
   background: transparent;
   cursor: pointer;
   transition: ease-out 0.5s;
   border-radius: 20px;
-  background-color: #f1e695;
+  background-color: var(--secondary-color);
   outline: none;
   border: none;
   min-width: 120px;
@@ -19,7 +19,7 @@
 
 .btn:hover {
   color: white;
-  box-shadow: inset 0 -100px 0 0 #56168e;
+  box-shadow: inset 0 -100px 0 0 var(--primary-color);
 }
 
 .btn:active {
@@ -40,15 +40,15 @@
   cursor: pointer;
   transition: ease-out 0.5s;
   border-radius: 20px;
-  background-color: #56168e;
+  background-color: var(--primary-color);
   outline: none;
   border: none;
   min-width: 120px;
 }
 
 .btn_dark:hover {
-  color: #56168e;
-  box-shadow: inset 0 -100px 0 0 #f1e695;
+  color: var(--primary-color);
+  box-shadow: inset 0 -100px 0 0 var(--secondary-color);
 }
 
 .btn_dark:active {
