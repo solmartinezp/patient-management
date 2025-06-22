@@ -57,8 +57,3 @@ Welcome to **Patient Management Data** – a modern frontend web application bui
     ```bash
     http://localhost:3000
 
-## 🌐 Website
-
-    This project is currently deployed on the following website:
-
-    ```bash
