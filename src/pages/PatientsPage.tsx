@@ -43,8 +43,6 @@ export const PatientsPage = () => {
     disabled: !hasNextPage,
   });
 
-  if (isError && !isLoading && !isFetchingNextPage) return <p className="notFound">{t("error")}</p>;
-
   const toggleModal = (patient?: Patient | null) => {
     setModalOpen(prev => !prev);
     setEditingPatient(patient ?? undefined);
@@ -115,14 +113,18 @@ export const PatientsPage = () => {
             ?
               <p className="notFound">{t("patientNotFound")}</p>
             :
-              filteredPatients.map((patient, i) => (
-                <PatientCard
-                  key={patient.id}
-                  patient={patient}
-                  onEdit={() => toggleModal(patient)}
-                  style={{ "--delay": `${i * 100}ms` } as React.CSSProperties}
-                />
-              ))
+              !isError ? (
+                  filteredPatients.map((patient, i) => (
+                    <PatientCard
+                      key={patient.id}
+                      patient={patient}
+                      onEdit={() => toggleModal(patient)}
+                      style={{ "--delay": `${i * 100}ms` } as React.CSSProperties}
+                    />
+                  ))
+              ) : (
+                 <p className="notFound">{t("error")}</p>
+              )
         }
       </div>
 
