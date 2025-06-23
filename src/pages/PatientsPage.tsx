@@ -105,7 +105,7 @@ export const PatientsPage = () => {
 
       <div className="card-container">
         {
-          isLoading && isFetchingNextPage
+          isLoading || isFetchingNextPage
           ?
             <Spinner />
           : 
